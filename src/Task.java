@@ -8,4 +8,6 @@ public interface Task<T> {
 
     // Возвращает результат выполнения
     T getResult();
+
+    boolean isExecuted();
 }
