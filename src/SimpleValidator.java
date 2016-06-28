@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Alex Korneyko on 27.06.2016.
- */
 public class SimpleValidator<T extends List<Integer>> implements Validator<T> {
     @Override
     public boolean isValid(T result) {

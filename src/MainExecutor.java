@@ -2,12 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-/**
- * Created by Alex Korneyko on 27.06.2016.
- */
 public class MainExecutor<T extends List<Integer>> implements Executor<T> {
 
-    List<TaskWithValidator> tasks = new ArrayList<>();
+    private List<TaskWithValidator> tasks = new ArrayList<>();
 
     @Override
     public void addTask(Task<? extends T> task) {
@@ -70,13 +67,17 @@ public class MainExecutor<T extends List<Integer>> implements Executor<T> {
         return inValidResults;
     }
 
+    public int getTaskCount(){
+        return tasks.size();
+    }
+
     private class TaskWithValidator {
-        public TaskWithValidator(Task<? extends T> task, Validator<? super T> validator) {
+        TaskWithValidator(Task<? extends T> task, Validator<? super T> validator) {
             this.task = task;
             this.validator = validator;
         }
 
-        public Task<? extends T> task;
-        public Validator<? super T> validator;
+        Task<? extends T> task;
+        Validator<? super T> validator;
     }
 }
