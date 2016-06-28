@@ -10,30 +10,37 @@ public class SimpleValidator<T extends List<Integer>> implements Validator<T> {
 
         sort(tempListForValidate);
 
-        return !progressionIsCorrect(tempListForValidate);
+        return progressionIsCorrect(tempListForValidate);
 
     }
 
     private boolean progressionIsCorrect(T tempListForValidate) {
         for (int i = 1; i < tempListForValidate.size(); i++) {
             if (tempListForValidate.get(i) - tempListForValidate.get(i - 1) != 1) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private void sort(T tempListForValidate) {
-        for (int i = 1; i < tempListForValidate.size(); i++) {
-            if (tempListForValidate.get(i - 1).compareTo(tempListForValidate.get(i)) > 0) {
-                swapElementsBack(tempListForValidate, i);
+
+        boolean listChanged = true;
+
+        while (listChanged) {
+            listChanged = false;
+            for (int i = 1; i < tempListForValidate.size(); i++) {
+                if (tempListForValidate.get(i - 1).compareTo(tempListForValidate.get(i)) > 0) {
+                    swapElementsBack(tempListForValidate, i);
+                    listChanged = true;
+                }
             }
         }
     }
 
-    private void swapElementsBack(T result, int i) {
-        int temp = result.get(i - 1);
-        result.set(i - 1, result.get(i));
-        result.set(i, temp);
+    private void swapElementsBack(T listForElementSwap, int i) {
+        int temp = listForElementSwap.get(i - 1);
+        listForElementSwap.set(i - 1, listForElementSwap.get(i));
+        listForElementSwap.set(i, temp);
     }
 }

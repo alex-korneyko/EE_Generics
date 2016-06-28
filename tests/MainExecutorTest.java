@@ -1,4 +1,3 @@
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -7,9 +6,6 @@ import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Alex Korneyko on 28.06.2016 12:27.
- */
 public class MainExecutorTest {
 
     @Test
@@ -18,7 +14,8 @@ public class MainExecutorTest {
         MainExecutor<ArrayList<Integer>> executor = new MainExecutor<>();
         IntStream.range(0, 10).forEach((i) -> executor.addTask(new SimpleTask(ArrayList.class)));
 
-        Assert.assertEquals(10, executor.getTaskCount());
+        assertEquals(10, executor.getTaskCount());
+
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -28,20 +25,45 @@ public class MainExecutorTest {
         SimpleTask task = new SimpleTask(ArrayList.class);
         task.execute();
         executor.addTask(task);
-    }
-
-    @Test
-    public void addTask1() throws Exception {
 
     }
 
     @Test
-    public void getValidResults() throws Exception {
+    public void addTaskWithValidator() throws Exception {
+
+        MainExecutor<ArrayList<Integer>> executor = new MainExecutor<>();
+        IntStream.range(0, 10).forEach((i) -> executor.addTask(new SimpleTask(ArrayList.class), new SimpleValidator<>()));
+
+        assertEquals(10, executor.getTaskCount());
 
     }
 
     @Test
-    public void getInvalidResults() throws Exception {
+    public void getValidResultsWithoutValidator() throws Exception {
+
+        MainExecutor<ArrayList<Integer>> executor = new MainExecutor<>();
+        IntStream.range(0, 10).forEach((i) -> executor.addTask(new SimpleTask(ArrayList.class)));
+        executor.execute();
+
+        executor.getValidResults().forEach(System.out::println);
+
+    }
+
+    @Test
+    public void getValidAndInvalidResultsWithValidator() throws Exception {
+        MainExecutor<ArrayList<Integer>> executor = new MainExecutor<>();
+        IntStream.range(0, 10_000).forEach((i) -> executor.addTask(new SimpleTask(ArrayList.class), new SimpleValidator<>()));
+        executor.execute();
+
+        List<ArrayList<Integer>> validResults = executor.getValidResults();
+        List<ArrayList<Integer>> inValidResults = executor.getInvalidResults();
+
+        for(ArrayList<Integer> arrayList: validResults){
+            assertEquals(45, arrayList.stream().mapToInt(value -> value).sum());
+        }
+
+        System.out.println("\nValid results: " + validResults.size() + ". Invalid results: " + inValidResults.size());
+        validResults.forEach(System.out::println);
 
     }
 

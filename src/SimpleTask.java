@@ -19,8 +19,8 @@ public class SimpleTask<T extends List<Integer>> implements Task<T> {
     @Override
     public void execute() {
         isExecuted = true;
-        IntStream.range(0, 10).forEach((i) -> list.add((int) (Math.random() * 15)));
-        int a = 0;
+        IntStream.range(0, 10).forEach((i) -> list.add((int) (Math.random() * 10)));
+
     }
 
     @Override
