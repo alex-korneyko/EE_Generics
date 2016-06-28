@@ -1,10 +1,8 @@
 <project name="ee-generics" basedir=".">
 
-    <property name="src" location="src"/>
+    <property name="src" location="src/main/java"/>
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
-    <property name="libs" location="lib"/>
-    <property name="tests" location="tests"/>
 
     <target name="init" depends="clean">
         <mkdir dir="${build}"/>
