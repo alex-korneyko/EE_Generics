@@ -31,8 +31,4 @@ public class SimpleTask<T extends List<Integer>> implements Task<T> {
     public boolean isExecuted() {
         return isExecuted;
     }
-
-    class listCreator {
-
-    }
 }
