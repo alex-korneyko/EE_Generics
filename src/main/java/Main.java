@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -10,7 +11,9 @@ public class Main {
     public static void main(String[] args) {
 
         MainExecutor<ArrayList<Integer>> executor = new MainExecutor<>();
-        IntStream.range(0, 10_000).forEach((i) -> executor.addTask(new SimpleTask(ArrayList.class), new SimpleValidator<>()));
+        IntStream.range(0, 10_000).forEach((i) -> executor.addTask(new SimpleTask<>(ArrayList.class), new SimpleValidator<>()));
+        executor.addTask(new SimpleTask<>(ArrayList.class, new ArrayList<>(Arrays.asList(8, 1, 2, 3, 5))), new SimpleValidator<>());
+        executor.addTask(new SimpleTask<>(ArrayList.class, new ArrayList<>(Arrays.asList(6, 1, 2, 4, 3, 5))), new SimpleValidator<>());
         executor.execute();
 
         List<ArrayList<Integer>> validResults = executor.getValidResults();
