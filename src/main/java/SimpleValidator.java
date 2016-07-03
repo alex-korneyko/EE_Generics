@@ -3,9 +3,9 @@ import java.util.List;
 
 public class SimpleValidator<T extends List<Integer>> implements Validator<T> {
     @Override
-    public boolean isValid(T result) {
+    public boolean isValid(T result, Class<? extends List> classObject) throws IllegalAccessException, InstantiationException {
 
-        T tempListForValidate = (T) new ArrayList<Integer>();
+        T tempListForValidate = (T) classObject.newInstance();
         result.forEach(tempListForValidate::add);
 
         sort(tempListForValidate);

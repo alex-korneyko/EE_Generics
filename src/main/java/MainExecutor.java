@@ -12,7 +12,7 @@ public class MainExecutor<T extends List<Integer>> implements Executor<T> {
             throw new IllegalArgumentException("Task is executed");
         }
 
-        tasks.add(new TaskWithValidator(task, result -> true));
+        tasks.add(new TaskWithValidator(task, (result, classObject) -> true));
     }
 
     @Override
@@ -40,8 +40,12 @@ public class MainExecutor<T extends List<Integer>> implements Executor<T> {
                 throw new IllegalArgumentException("Task is not executed");
             }
 
-            if (tasks.get(i).validator.isValid(task.getResult())) {
-                validResults.add(task.getResult());
+            try {
+                if (tasks.get(i).validator.isValid(task.getResult(), ArrayList.class)) {
+                    validResults.add(task.getResult());
+                }
+            } catch (IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
             }
         });
 
@@ -59,8 +63,12 @@ public class MainExecutor<T extends List<Integer>> implements Executor<T> {
                 throw new IllegalArgumentException("Task is not executed");
             }
 
-            if (!tasks.get(i).validator.isValid(task.getResult())) {
-                inValidResults.add(task.getResult());
+            try {
+                if (!tasks.get(i).validator.isValid(task.getResult(), ArrayList.class)) {
+                    inValidResults.add(task.getResult());
+                }
+            } catch (IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
             }
         });
 
